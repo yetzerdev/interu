@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* =========================================================
+   InterU — Tokens (DESIGN.md, seccion Components)
+   Modo claro unicamente.
+   ========================================================= */
+
+:root {
+  /* Marca */
+  --iu-primary: #0d3b82;
+  --iu-primary-hover: #0a2e66;
+  --iu-accent: #f59e0b;
+  --iu-accent-hover: #d97706;
+  --iu-tertiary: #0284c7;
+
+  /* Texto */
+  --iu-ink: #0f172a;
+  --iu-muted: #475569;
+
+  /* Superficies */
+  --iu-canvas: #f8fafc;
+  --iu-elevated: #ffffff;
+  --iu-line: #e2e8f0;
+  --iu-line-strong: #cbd5e1;
+
+  --iu-success: #10b981;
+  --iu-danger: #ef4444;
+
+  /* Elevacion (sombras con tinte navy, segun DESIGN.md) */
+  --iu-shadow-1: 0 1px 3px 0 rgba(13, 59, 130, 0.04), 0 1px 2px -1px rgba(13, 59, 130, 0.04);
+  --iu-shadow-2: 0 10px 15px -3px rgba(13, 59, 130, 0.08), 0 4px 6px -4px rgba(13, 59, 130, 0.04);
+  --iu-shadow-3: 0 20px 25px -5px rgba(13, 59, 130, 0.12), 0 8px 10px -6px rgba(13, 59, 130, 0.08);
+}
+
+@theme inline {
+  --color-canvas: var(--iu-canvas);
+  --color-elevated: var(--iu-elevated);
+  --color-ink: var(--iu-ink);
+  --color-muted: var(--iu-muted);
+  --color-line: var(--iu-line);
+  --color-line-strong: var(--iu-line-strong);
+  --color-brand: var(--iu-primary);
+  --color-brand-hover: var(--iu-primary-hover);
+  --color-accent: var(--iu-accent);
+  --color-accent-hover: var(--iu-accent-hover);
+  --color-tertiary: var(--iu-tertiary);
+  --color-success: var(--iu-success);
+  --color-danger: var(--iu-danger);
+
+  /* Escala de marca (examples/acces.txt) */
+  --color-brand-50: #edf4ff;
+  --color-brand-100: #d7e6ff;
+  --color-brand-600: #1b5bc9;
+  --color-brand-700: #0f48a8;
+  --color-brand-800: #0d3b82;
+  --color-brand-900: #082654;
+  --color-brand-950: #051738;
+
+  --shadow-1: var(--iu-shadow-1);
+  --shadow-2: var(--iu-shadow-2);
+  --shadow-3: var(--iu-shadow-3);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-tiktok), var(--font-jakarta), var(--font-body),
+    ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Titulares: TikTok Display. La fuente es propietaria — deja los archivos
+   .woff2 en public/fonts/ para activarla. Sin ellos cae a Plus Jakarta Sans. */
+@font-face {
+  font-family: 'TikTok Display';
+  src: url('/fonts/TikTokDisplay-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TikTok Display';
+  src: url('/fonts/TikTokDisplay-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  background: var(--iu-canvas);
+  color: var(--iu-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'TikTok Display', var(--font-jakarta), var(--font-body),
+    ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Anillo de foco: el tertiary del sistema, no el default del navegador. */
+:focus-visible {
+  outline: 2px solid var(--iu-tertiary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--iu-tertiary) 22%, transparent);
+  color: var(--iu-ink);
+}
+
+/* Cifras tabulares donde importan (conteos, metricas). */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   Superficies de examples/acces.txt
+   ========================================================= */
+
+/* Retícula de puntos del canvas de acceso. */
+.bg-dot-pattern {
+  background-color: #faf8ff;
+  background-image: radial-gradient(#d3d7ea 0.85px, transparent 0.85px);
+  background-size: 22px 22px;
+}
+
+/* Panel de marca: degradado con dos focos difusos. */
+.hero-mesh-gradient {
+  background: linear-gradient(
+    135deg,
+    #0d3b82 0%,
+    #1a4fa0 30%,
+    #3065d6 60%,
+    #764fd8 85%,
+    #8c5ff8 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-mesh-gradient::before,
+.hero-mesh-gradient::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-mesh-gradient::before {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.45) 0%,
+    rgba(13, 59, 130, 0) 70%
+  );
+  top: -60px;
+  right: -60px;
+  filter: blur(40px);
+}
+
+.hero-mesh-gradient::after {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.35) 0%,
+    rgba(13, 59, 130, 0) 70%
+  );
+  bottom: -40px;
+  left: -40px;
+  filter: blur(40px);
+}
+

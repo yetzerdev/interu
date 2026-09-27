@@ -1,0 +1,171 @@
+'use server'
+
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+import { headers } from 'next/headers'
+import { createClient } from '@/lib/supabase/server'
+import {
+  registrar,
+  completarPerfil,
+  subirCarne,
+  aprobarSolicitud,
+  rechazarSolicitud,
+} from '@/lib/dal/verificaciones'
+
+export type EstadoForm = { error?: string }
+
+// Re-verifica que el caller sea admin. La página /admin solo controla qué UI
+// se renderiza; la action DEBE validar por su cuenta (evita escalada).
+async function requireAdminUserId(): Promise<string> {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getUser()
+  const user = data.user
+  if (!user) redirect('/ingresar')
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle()
+  if (profile?.role !== 'admin') redirect('/')
+  return user.id
+}
+
+// ---------- REGISTRO (paso 1: correo + contrasena) ----------
+export async function registrarAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const resultado = await registrar({
+    email,
+    password: String(formData.get('password') ?? ''),
+  })
+
+  if (!resultado.ok) return { error: resultado.error }
+
+  // Establece sesión y lleva al paso 2 (perfil público).
+  const supabase = await createClient()
+  await supabase.auth.signInWithPassword({
+    email,
+    password: String(formData.get('password') ?? ''),
+  })
+
+  redirect('/completar')
+}
+
+// ---------- PERFIL (paso 2: nombre + universidad + campus) ----------
+export async function completarPerfilAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm> {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getUser()
+  if (!data.user) redirect('/')
+
+  const resultado = await completarPerfil({
+    userId: data.user.id,
+    legalName: String(formData.get('legalName') ?? ''),
+    universityId: String(formData.get('universityId') ?? ''),
+    campusId: String(formData.get('campusId') ?? ''),
+  })
+
+  if (!resultado.ok) return { error: resultado.error }
+
+  redirect('/esperando')
+}
+
+// ---------- LOGIN ----------
+export async function iniciarSesionAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password: String(formData.get('password') ?? ''),
+  })
+  if (error) return { error: 'Credenciales inválidas.' }
+
+  // Si la cuenta existe pero nunca completó el perfil, le toca el paso 2.
+  const { data: perfil } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', (await supabase.auth.getUser()).data.user!.id)
+    .maybeSingle()
+
+  if (!perfil) redirect('/completar')
+  redirect(perfil.role === 'admin' ? '/admin' : '/esperando')
+}
+
+export async function cerrarSesionAction() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/')
+}
+
+// ---------- SSO (OAuth) ----------
+// Google / Microsoft 365. Requiere habilitar el proveedor en Supabase Auth y
+// registrar <origin>/auth/callback entre las URLs de redireccion permitidas.
+export async function oauthAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm> {
+  const provider = String(formData.get('provider') ?? '')
+  if (provider !== 'google' && provider !== 'azure')
+    return { error: 'Proveedor no soportado.' }
+
+  const cabeceras = await headers()
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    cabeceras.get('origin') ??
+    `${cabeceras.get('x-forwarded-proto') ?? 'http'}://${cabeceras.get('host')}`
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: `${origin}/auth/callback` },
+  })
+
+  if (error || !data.url)
+    return { error: 'No pudimos conectar con ese proveedor.' }
+
+  redirect(data.url)
+}
+
+// ---------- CARNÉ (fallback manual) ----------
+export async function subirCarneAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm> {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getUser()
+  if (!data.user) redirect('/ingresar')
+
+  const file = formData.get('carne')
+  if (!(file instanceof File) || file.size === 0)
+    return { error: 'Selecciona la foto de tu carné.' }
+
+  const resultado = await subirCarne(data.user.id, file)
+  if (!resultado.ok) return { error: resultado.error ?? 'Error al subir.' }
+
+  revalidatePath('/esperando')
+  return {}
+}
+
+// ---------- ADMIN ----------
+// Retornan Promise<void> para poder bindearse directamente a <form action>
+// en el server component de /admin. En error, lanzan (error boundary).
+export async function aprobarAction(requestId: string): Promise<void> {
+  const adminUserId = await requireAdminUserId()
+  const resultado = await aprobarSolicitud(requestId, adminUserId)
+  if (!resultado.ok) throw new Error(resultado.error)
+  revalidatePath('/admin')
+}
+
+export async function rechazarAction(requestId: string): Promise<void> {
+  const adminUserId = await requireAdminUserId()
+  const resultado = await rechazarSolicitud(requestId, adminUserId)
+  if (!resultado.ok) throw new Error(resultado.error)
+  revalidatePath('/admin')
+}

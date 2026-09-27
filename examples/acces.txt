@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="es" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>InterU Honduras - Portal de Registro Universitario</title>
+<!-- Tailwind CSS CDN with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Font and Custom Utilities Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#edf4ff',
+              100: '#d7e6ff',
+              600: '#1b5bc9',
+              700: '#0f48a8',
+              800: '#0d3b82',
+              900: '#082654',
+            }
+          }
+        }
+      }
+    };
+  </script>
+<style data-purpose="background-patterns">
+    /* Subtle dot grid pattern on light ambient background */
+    .bg-dot-pattern {
+      background-color: #faf8ff;
+      background-image: radial-gradient(#d3d7ea 0.85px, transparent 0.85px);
+      background-size: 22px 22px;
+    }
+  </style>
+<style data-purpose="gradient-styling">
+    /* Vibrant mesh gradient inspired by the reference illustration */
+    .hero-mesh-gradient {
+      background: linear-gradient(135deg, #0d3b82 0%, #1a4fa0 30%, #3065d6 60%, #764fd8 85%, #8c5ff8 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-mesh-gradient::before {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(13, 59, 130, 0) 70%);
+      top: -60px;
+      right: -60px;
+      filter: blur(40px);
+    }
+
+    .hero-mesh-gradient::after {
+      content: '';
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(13, 59, 130, 0) 70%);
+      bottom: -40px;
+      left: -40px;
+      filter: blur(40px);
+    }
+  </style>
+</head>
+<body class="bg-dot-pattern min-h-screen text-slate-800 antialiased font-sans flex flex-col justify-between p-4 sm:p-6 lg:p-8">
+<!-- BEGIN: SiteHeader -->
+<header class="w-full max-w-6xl mx-auto flex items-center justify-between py-2 mb-4" data-purpose="main-header">
+<div class="flex items-center gap-3">
+<!-- Portal Emblem Logo -->
+<div class="h-10 w-10 p-1 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center">
+
+</div>
+<div>
+<div class="flex items-center gap-2">
+
+
+</div>
+
+</div>
+</div>
+<!-- Red Oficial Status Pill -->
+<div class="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-200/80 shadow-xs">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+
+</div>
+</header>
+<!-- END: SiteHeader -->
+<!-- BEGIN: AuthenticationCard -->
+<main class="w-full max-w-5xl mx-auto flex-1 flex items-center justify-center py-2" data-purpose="auth-container">
+<div class="w-full bg-white rounded-[28px] shadow-[0_20px_55px_-15px_rgba(20,30,65,0.12)] border border-slate-100 p-3 sm:p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-stretch">
+<!-- BEGIN: LeftBrandShowcase -->
+<section class="lg:col-span-5 hero-mesh-gradient rounded-[22px] p-8 flex flex-col justify-between relative text-white min-h-[460px] lg:min-h-[580px]" data-purpose="brand-visual-column">
+<!-- Top emblem card -->
+<div class="relative z-10 flex items-center justify-between">
+<div class="h-13 w-13 p-2 bg-white/95 rounded-2xl shadow-lg backdrop-blur-md flex items-center justify-center border border-white/20">
+<img alt="InterU HN Monogram" class="h-9 w-9 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGB6KKlSOt2YbTAMMWXMbdNdef553QFBz1mfDAjwKSVpTlp72KPUsU_zWDzfwgVx_2pk0hyEZFCm2KYrOHwjDtlghPCde3HXW26Tr0e8Iw_akjV0Mu3A6HGmNpBoOFrQxrjWfi4St9zNQOM4U_l6Dq63P_QgdkFlLeM7YDU0n-xjktO0sHZCuDsglmQ9CdbOy5pIpcrjVcj0rf4Bt4m1DnKorir8Ch06y73YfJJMBAFgp-Wy5U2cs7mjQFct53-SBtkX0">
+</div>
+
+</div>
+<!-- Ambient decorative spark or star icon -->
+
+<!-- Bottom Informational Text -->
+<div class="relative z-10 space-y-4">
+<div class="inline-flex items-center gap-1.5 text-blue-200 text-xs font-semibold tracking-wide uppercase">
+<svg class="w-4 h-4 text-cyan-300" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path>
+</svg>
+            Acceso seguro verificado
+          </div>
+<h2 class="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-white">
+            Tu comunidad universitaria reunida en un solo lugar.
+          </h2>
+<p class="text-sm text-blue-100/90 leading-relaxed">
+            Conecta, comparte apuntes y debate ideas con pares verificados de las principales instituciones académicas de Honduras.
+          </p>
+<!-- University tags pill row -->
+
+</div>
+</section>
+<!-- END: LeftBrandShowcase -->
+<!-- BEGIN: RightRegistrationForm -->
+<section class="lg:col-span-7 flex flex-col justify-center px-4 sm:px-8 py-6 lg:py-8" data-purpose="registration-form-column">
+<!-- Form Header Icon & Titles -->
+<div class="mb-6">
+<div class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-brand-800 mb-3">
+<svg class="w-5 h-5 text-brand-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Crear una cuenta</h1>
+<p class="text-slate-500 text-sm mt-1">Accede a tus debates, apuntes de clase y red estudiantil hondureña.</p>
+</div>
+<!-- Registration Form Inputs -->
+<form class="space-y-4" data-purpose="onboarding-form" onsubmit="event.preventDefault();">
+<!-- Institutional Email Input -->
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5" for="institutional-email">
+              Correo institucional o personal
+            </label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700/20 focus:border-brand-700 transition" id="institutional-email" placeholder="ejemplo@unah.hn / tu.nombre@unitec.edu" required="" type="email" value="farazhaidet786@gmail.com">
+</div>
+</div>
+<!-- University Selection Dropdown -->
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5" for="university-selector">
+              Universidad afiliada
+            </label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<select class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-700/20 focus:border-brand-700 transition appearance-none bg-white cursor-pointer" id="university-selector">
+<option selected="" value="unah">UNAH - Universidad Nacional Autónoma de Honduras</option>
+<option value="unitec">UNITEC - Universidad Tecnológica Centroamericana</option>
+<option value="ceutec">CEUTEC - Centro Universitario Tecnológico</option>
+<option value="uth">UTH - Universidad Tecnológica de Honduras</option>
+<option value="upnfm">UPNFM - Universidad Pedagógica Nacional Francisco Morazán</option>
+<option value="otra">Otra institución educativa en HN</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Password Input with Toggle Placeholder -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider" for="password-input">
+                Contraseña
+              </label>
+<span class="text-xs text-slate-400">Mínimo 8 caracteres</span>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700/20 focus:border-brand-700 transition" id="password-input" required="" type="password" value="••••••••••••">
+<!-- Eye toggle button -->
+<button aria-label="Ver u ocultar contraseña" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition" id="toggle-password-btn" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Primary Submit Action Button -->
+<div class="pt-2">
+<button class="w-full py-3 px-4 bg-brand-800 hover:bg-brand-900 active:bg-slate-900 text-white font-semibold text-sm rounded-xl shadow-lg shadow-brand-800/25 transition duration-200 ease-in-out flex items-center justify-center gap-2 group" type="submit">
+<span class="">Comenzar ahora</span>
+<svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</form>
+<!-- Divider with Text -->
+<div class="relative my-5 text-center">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-200"></div>
+</div>
+<span class="relative px-3 bg-white text-xs text-slate-400 font-medium tracking-wide">
+            o continúa con
+          </span>
+</div>
+<!-- Social SSO Buttons -->
+<div class="grid grid-cols-2 gap-3" data-purpose="sso-providers">
+<!-- Google Institucional Button -->
+<button class="flex items-center justify-center gap-2.5 px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 hover:bg-white hover:border-slate-300 text-xs font-semibold text-slate-700 transition shadow-2xs" type="button">
+<!-- Google Color Icon -->
+<svg class="w-4 h-4" viewBox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.25 21.36 7.33 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.25C.45 8.16 0 9.98 0 12s.45 3.84 1.25 5.43l4.03-3.14z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.25 2.64 1.25 6.57l4.03 3.14c.95-2.83 3.6-4.96 6.72-4.96z" fill="#EA4335"></path>
+</svg>
+<span class="">Google</span>
+</button>
+<!-- Microsoft 365 Button -->
+<button class="flex items-center justify-center gap-2.5 px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 hover:bg-white hover:border-slate-300 text-xs font-semibold text-slate-700 transition shadow-2xs" type="button">
+<!-- Microsoft 4-square Icon -->
+<svg class="w-4 h-4" viewBox="0 0 21 21">
+<rect fill="#f25022" height="9" width="9" x="1" y="1"></rect>
+<rect fill="#7fba00" height="9" width="9" x="11" y="1"></rect>
+<rect fill="#00a4ef" height="9" width="9" x="1" y="11"></rect>
+<rect fill="#ffb900" height="9" width="9" x="11" y="11"></rect>
+</svg>
+<span class="">Microsoft 365</span>
+</button>
+</div>
+<!-- Account Switcher Link -->
+<p class="text-center text-xs text-slate-500 mt-6">
+          ¿Ya tienes una cuenta? 
+          <a class="font-bold text-brand-800 hover:text-brand-900 hover:underline transition" href="#login">
+            Iniciar sesión
+          </a>
+</p>
+</section>
+<!-- END: RightRegistrationForm -->
+</div>
+</main>
+<!-- END: AuthenticationCard -->
+<!-- BEGIN: SiteFooter -->
+<footer class="w-full max-w-6xl mx-auto py-3 text-center text-xs text-slate-400 space-y-1" data-purpose="site-footer">
+
+<div class="flex items-center justify-center gap-4 text-[11px] text-slate-500">
+<a class="hover:underline" href="#terminos">Términos de servicio</a>
+<span class="">•</span>
+<a class="hover:underline" href="#privacidad">Protección de datos HN</a>
+<span class="">•</span>
+<a class="hover:underline" href="#soporte">Mesa de ayuda estudiantil</a>
+</div>
+</footer>
+<!-- END: SiteFooter -->
+<!-- Toggle Password Script -->
+<script data-purpose="password-visibility">
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('toggle-password-btn');
+      const passwordInput = document.getElementById('password-input');
+
+      if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', () => {
+          const isPassword = passwordInput.getAttribute('type') === 'password';
+          passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+          toggleBtn.classList.toggle('text-brand-800', isPassword);
+        });
+      }
+    });
+  </script>
+
+
+</body></html>
