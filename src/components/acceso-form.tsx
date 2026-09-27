@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useState } from 'react'
+import Link from 'next/link'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { ArrowRight01Icon, ViewIcon, ViewOffIcon } from '@hugeicons/core-free-icons'
 import { registrarAction, oauthAction } from '@/app/actions'
@@ -138,12 +139,24 @@ export default function AccesoForm() {
 
       <p className="mt-6 text-center text-xs text-slate-500">
         ¿Ya tienes una cuenta?{' '}
-        <a
+        <Link
           href="/ingresar"
           className="font-bold text-brand-800 transition hover:text-brand-900 hover:underline"
         >
           Iniciar sesión
-        </a>
+        </Link>
+      </p>
+
+      <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-400">
+        Al crear tu cuenta aceptas los{' '}
+        <Link href="/terminos" className="underline transition hover:text-slate-600">
+          términos de servicio
+        </Link>{' '}
+        y la{' '}
+        <Link href="/privacidad" className="underline transition hover:text-slate-600">
+          política de privacidad
+        </Link>
+        .
       </p>
     </>
   )

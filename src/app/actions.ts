@@ -104,6 +104,55 @@ export async function cerrarSesionAction() {
   redirect('/')
 }
 
+// ---------- RECUPERAR / CAMBIAR CONTRASEÑA ----------
+// El correo lo envía Supabase Auth a través del SMTP configurado (Resend).
+// El enlace vuelve a /auth/confirm, que canjea el code por sesión.
+export async function recuperarClaveAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm & { enviado?: boolean }> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  if (!email || !email.includes('@')) return { error: 'Correo inválido.' }
+
+  const cabeceras = await headers()
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    cabeceras.get('origin') ??
+    `${cabeceras.get('x-forwarded-proto') ?? 'http'}://${cabeceras.get('host')}`
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    // `siguiente` le dice a /auth/confirm a dónde ir tras canjear el code.
+    redirectTo: `${origin}/auth/confirm?siguiente=/actualizar-clave`,
+  })
+
+  // No revelamos si el correo existe: misma respuesta en ambos casos.
+  if (error) return { error: 'No pudimos enviar el correo. Intenta de nuevo.' }
+  return { enviado: true }
+}
+
+export async function actualizarClaveAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm> {
+  const clave = String(formData.get('password') ?? '')
+  const repetir = String(formData.get('password2') ?? '')
+
+  if (clave.length < 8)
+    return { error: 'La contraseña debe tener al menos 8 caracteres.' }
+  if (clave !== repetir) return { error: 'Las contraseñas no coinciden.' }
+
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getUser()
+  if (!data.user)
+    return { error: 'El enlace venció. Pide uno nuevo para recuperar tu clave.' }
+
+  const { error } = await supabase.auth.updateUser({ password: clave })
+  if (error) return { error: 'No pudimos actualizar tu contraseña.' }
+
+  redirect('/esperando')
+}
+
 // ---------- SSO (OAuth) ----------
 // Google / Microsoft 365. Requiere habilitar el proveedor en Supabase Auth y
 // registrar <origin>/auth/callback entre las URLs de redireccion permitidas.
