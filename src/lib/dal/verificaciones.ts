@@ -2,6 +2,7 @@ import 'server-only'
 
 import { randomInt } from 'node:crypto'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase/server'
 
 // =====================================================================
 // DAL de verificacion (Fase 1) — SOLO SERVIDOR.
@@ -85,33 +86,61 @@ async function hmacEvidencia(bytes: ArrayBuffer): Promise<string> {
 
 // =====================================================================
 // REGISTRO en dos pasos
-//   1. registrar()      -> solo correo + contrasena. Crea la cuenta y ya.
+//   1. registrar()      -> correo + contrasena. Crea la cuenta SIN
+//                          confirmar y envia el correo de verificacion.
 //   2. completarPerfil() -> nombre + universidad + campus. Genera el alias.
 //
 // El paso 1 no toca `profiles` porque alias/university_id/campus_id son
 // NOT NULL: el perfilPublico nace en el paso 2, con el campus en mano.
-// =====================================================================
+//
+// `email_confirm` queda en false A PROPOSITO: sin confirmacion, cualquiera
+// podria registrarse con el correo de otra persona. El enlace vuelve a
+// /auth/confirm y recien ahi hay sesion; /completar queda bloqueado hasta
+// que el usuario confirma.
+//
+// OJO: con confirmacion activada, Supabase responde igual si el correo ya
+// existe (no lo revela). Por eso no podemos decir "ese correo ya esta
+// registrado" — y esta bien que sea asi.
 export async function registrar(input: {
   email: string
   password: string
+  origin: string
 }): Promise<{ ok: true } | { ok: false; error: string }> {
-  const admin = createAdminClient()
   const email = input.email.trim().toLowerCase()
 
   if (!email || !email.includes('@')) return { ok: false, error: 'Correo inválido.' }
   if (!input.password || input.password.length < 8)
     return { ok: false, error: 'La contraseña debe tener al menos 8 caracteres.' }
 
-  const { error: userErr } = await admin.auth.admin.createUser({
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signUp({
     email,
     password: input.password,
-    email_confirm: true,
+    options: {
+      // Vuelve a /auth/confirm, que canjea el code por sesion y sigue a /completar.
+      emailRedirectTo: `${input.origin}/auth/confirm?siguiente=/completar`,
+    },
   })
-  if (userErr) {
-    if (/already|registered|exists/i.test(userErr.message))
-      return { ok: false, error: 'Ese correo ya está registrado.' }
-    return { ok: false, error: userErr.message }
-  }
+
+  if (error && !/already|registered|exists|not authorized/i.test(error.message))
+    return { ok: false, error: error.message }
+
+  return { ok: true }
+}
+
+// Reenvia el correo de confirmacion. Misma respuesta exista o no la cuenta.
+export async function reenviarConfirmacion(
+  email: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const normalizado = email.trim().toLowerCase()
+  if (!normalizado || !normalizado.includes('@'))
+    return { ok: false, error: 'Correo inválido.' }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.resend({ type: 'signup', email: normalizado })
+
+  if (error && !/already|registered|exists|not found|not authorized/i.test(error.message))
+    return { ok: false, error: 'No pudimos reenviar el correo. Intenta de nuevo.' }
 
   return { ok: true }
 }

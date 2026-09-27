@@ -6,6 +6,7 @@ import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import {
   registrar,
+  reenviarConfirmacion,
   completarPerfil,
   subirCarne,
   aprobarSolicitud,
@@ -35,22 +36,33 @@ export async function registrarAction(
   _prev: EstadoForm,
   formData: FormData,
 ): Promise<EstadoForm> {
-  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const cabeceras = await headers()
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    cabeceras.get('origin') ??
+    `${cabeceras.get('x-forwarded-proto') ?? 'http'}://${cabeceras.get('host')}`
+
   const resultado = await registrar({
-    email,
+    email: String(formData.get('email') ?? ''),
     password: String(formData.get('password') ?? ''),
+    origin,
   })
 
   if (!resultado.ok) return { error: resultado.error }
 
-  // Establece sesión y lleva al paso 2 (perfil público).
-  const supabase = await createClient()
-  await supabase.auth.signInWithPassword({
-    email,
-    password: String(formData.get('password') ?? ''),
-  })
+  // No hay sesion todavia: la cuenta nace sin confirmar. Va a /verifica-correo
+  // a esperar el enlace que manda Supabase.
+  redirect('/verifica-correo')
+}
 
-  redirect('/completar')
+// ---------- REENVIAR EL CORREO DE CONFIRMACION ----------
+export async function reenviarConfirmacionAction(
+  _prev: EstadoForm,
+  formData: FormData,
+): Promise<EstadoForm & { enviado?: boolean }> {
+  const resultado = await reenviarConfirmacion(String(formData.get('email') ?? ''))
+  if (!resultado.ok) return { error: resultado.error }
+  return { enviado: true }
 }
 
 // ---------- PERFIL (paso 2: nombre + universidad + campus) ----------
@@ -61,6 +73,10 @@ export async function completarPerfilAction(
   const supabase = await createClient()
   const { data } = await supabase.auth.getUser()
   if (!data.user) redirect('/')
+
+  // La pagina ya lo bloquea, pero la action DEBE validar por su cuenta:
+  // sin esto, un POST directo completaria el perfil sin confirmar el correo.
+  if (!data.user.email_confirmed_at) redirect('/verifica-correo')
 
   const resultado = await completarPerfil({
     userId: data.user.id,
@@ -80,14 +96,18 @@ export async function iniciarSesionAction(
   formData: FormData,
 ): Promise<EstadoForm> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const password = String(formData.get('password') ?? '')
   const supabase = await createClient()
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password: String(formData.get('password') ?? ''),
-  })
-  if (error) return { error: 'Credenciales inválidas.' }
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-  // Si la cuenta existe pero nunca completó el perfil, le toca el paso 2.
+  if (error) {
+    if (/not confirmed|email not confirmed/i.test(error.message))
+      return {
+        error: 'Tu correo todavía no está confirmado. Revisá tu bandeja y el enlace que te enviamos.',
+      }
+    return { error: 'Credenciales inválidas.' }
+  }
+
   const { data: perfil } = await supabase
     .from('profiles')
     .select('role')

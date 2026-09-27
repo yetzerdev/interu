@@ -15,6 +15,11 @@ export default async function CompletarPage() {
   if (sesion.tienePerfil) redirect(sesion.esAdmin ? '/admin' : '/esperando')
 
   const supabase = await createClient()
+  const { data: sesionAuth } = await supabase.auth.getUser()
+
+  // Cinturon: sin correo confirmado no se completa el perfil.
+  if (!sesionAuth.user?.email_confirmed_at) redirect('/verifica-correo')
+
   const [{ data: universities }, { data: campuses }] = await Promise.all([
     supabase
       .from('universities')
