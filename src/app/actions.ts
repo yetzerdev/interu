@@ -96,7 +96,7 @@ export async function completarPerfilAction(
 
   if (!resultado.ok) return { error: resultado.error }
 
-  redirect('/esperando')
+  redirect('/')
 }
 
 // ---------- LOGIN ----------
@@ -124,7 +124,7 @@ export async function iniciarSesionAction(
     .maybeSingle()
 
   if (!perfil) redirect('/completar')
-  redirect(perfil.role === 'admin' ? '/admin' : '/esperando')
+  redirect(perfil.role === 'admin' ? '/admin' : '/')
 }
 
 export async function cerrarSesionAction() {
@@ -179,7 +179,7 @@ export async function actualizarClaveAction(
   const { error } = await supabase.auth.updateUser({ password: clave })
   if (error) return { error: 'No pudimos actualizar tu contraseña.' }
 
-  redirect('/esperando')
+  redirect('/')
 }
 
 // ---------- SSO (OAuth) ----------

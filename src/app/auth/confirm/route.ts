@@ -21,6 +21,6 @@ export async function GET(request: Request) {
     }
   }
 
-  const destino = siguiente?.startsWith('/') ? siguiente : '/esperando'
+  const destino = siguiente?.startsWith('/') ? siguiente : '/'
   return NextResponse.redirect(`${origin}${destino}`)
 }
