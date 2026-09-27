@@ -13,11 +13,21 @@ import { cerrarSesionAction } from '@/app/actions'
  * derecha. Una sola linea en escritorio por construccion, porque no hay items
  * de navegacion que puedan desbordar.
  *
+ * Muestra el nombre real, que es lo que el usuario reconocio como suyo; el
+ * alias queda a mano en el menu, que es la identidad con la que lo ven los
+ * demas.
+ *
  * Radio (regla de forma del proyecto): pastilla para lo que se toca como
  * chip de identidad (trigger del perfil, avatar), 12px para las acciones del
  * menu. Nunca se mezclan en el mismo control.
  */
-export default function Navbar({ alias }: { alias: string | null }) {
+export default function Navbar({
+  nombre,
+  alias,
+}: {
+  nombre: string | null
+  alias: string | null
+}) {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200/70 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 sm:px-8">
@@ -39,13 +49,21 @@ export default function Navbar({ alias }: { alias: string | null }) {
           </span>
         </Link>
 
-        {alias ? <MenuPerfil alias={alias} /> : <LinksAcceso />}
+        {alias ? <MenuPerfil nombre={nombre} alias={alias} /> : <LinksAcceso />}
       </div>
     </header>
   )
 }
 
-function MenuPerfil({ alias }: { alias: string }) {
+function MenuPerfil({
+  nombre,
+  alias,
+}: {
+  nombre: string | null
+  alias: string
+}) {
+  const etiqueta = nombre ?? `@${alias}`
+
   return (
     <details className="group relative">
       <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pr-3 pl-1 text-sm font-semibold text-ink transition hover:border-slate-300 active:scale-[0.97] [&::-webkit-details-marker]:hidden">
@@ -53,9 +71,9 @@ function MenuPerfil({ alias }: { alias: string }) {
           aria-hidden
           className="grid size-7 shrink-0 place-items-center rounded-full bg-brand-800 text-xs font-bold text-white"
         >
-          {alias.charAt(0).toUpperCase()}
+          {etiqueta.charAt(0).toUpperCase()}
         </span>
-        <span className="max-w-[10ch] truncate">@{alias}</span>
+        <span className="max-w-[14ch] truncate">{etiqueta}</span>
         <HugeiconsIcon
           icon={ArrowDown01Icon}
           className="size-3.5 shrink-0 text-slate-400 transition-transform duration-200 ease-out group-open:rotate-180"
@@ -66,8 +84,10 @@ function MenuPerfil({ alias }: { alias: string }) {
 
       <div className="nav-menu absolute right-0 z-30 mt-2 w-60 origin-top-right rounded-2xl border border-slate-200 bg-white p-1.5 shadow-[0_14px_34px_-14px_rgba(15,23,42,0.25)]">
         <div className="px-3 py-2.5">
-          <p className="text-sm font-bold text-ink">@{alias}</p>
-          <p className="mt-0.5 text-xs text-muted">Tu seudónimo público</p>
+          <p className="text-sm font-bold text-ink">{etiqueta}</p>
+          <p className="mt-0.5 text-xs text-muted">
+            Te ven como <span className="font-semibold">@{alias}</span>
+          </p>
         </div>
         <div className="my-1 h-px bg-slate-100" />
         <Link
