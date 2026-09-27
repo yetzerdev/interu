@@ -285,6 +285,13 @@
                         </v:roundrect>
                       <![endif]-->
 
+                      <!--
+                        NO usar mso-hide aqui. Supabase borra los comentarios
+                        condicionales antes de enviar, asi que el boton VML de
+                        Outlook no llega. Con mso-hide el <a> queda invisible en
+                        Outlook y sin sustituto: mejor un rectangulo sin
+                        esquinas redondeadas que ningun boton.
+                      -->
                       <!--[if !mso]><!-->
                       <a
                         class="c-btn"
@@ -300,7 +307,6 @@
                           text-decoration: none;
                           padding: 15px 30px;
                           border-radius: 12px;
-                          mso-hide: all;
                         "
                       >
                         Confirmar mi correo
