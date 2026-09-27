@@ -131,13 +131,20 @@ export async function registrar(input: {
 // Reenvia el correo de confirmacion. Misma respuesta exista o no la cuenta.
 export async function reenviarConfirmacion(
   email: string,
+  origin: string,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   const normalizado = email.trim().toLowerCase()
   if (!normalizado || !normalizado.includes('@'))
     return { ok: false, error: 'Correo inválido.' }
 
   const supabase = await createClient()
-  const { error } = await supabase.auth.resend({ type: 'signup', email: normalizado })
+  const { error } = await supabase.auth.resend({
+    type: 'signup',
+    email: normalizado,
+    // Sin esto el reenvio cae en el Site URL de Supabase y el usuario aterriza
+    // en el home en vez de /completar.
+    options: { emailRedirectTo: `${origin}/auth/confirm?siguiente=/completar` },
+  })
 
   if (error && !/already|registered|exists|not found|not authorized/i.test(error.message))
     return { ok: false, error: 'No pudimos reenviar el correo. Intenta de nuevo.' }

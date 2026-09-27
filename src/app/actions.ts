@@ -60,7 +60,16 @@ export async function reenviarConfirmacionAction(
   _prev: EstadoForm,
   formData: FormData,
 ): Promise<EstadoForm & { enviado?: boolean }> {
-  const resultado = await reenviarConfirmacion(String(formData.get('email') ?? ''))
+  const cabeceras = await headers()
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    cabeceras.get('origin') ??
+    `${cabeceras.get('x-forwarded-proto') ?? 'http'}://${cabeceras.get('host')}`
+
+  const resultado = await reenviarConfirmacion(
+    String(formData.get('email') ?? ''),
+    origin,
+  )
   if (!resultado.ok) return { error: resultado.error }
   return { enviado: true }
 }

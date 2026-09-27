@@ -9,7 +9,9 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const siguiente = searchParams.get('next')
+  // `siguiente` es el nombre que genera registrar() y recuperarClaveAction().
+  // `next` se acepta como alias por si algun enlace viejo quedara en vuelo.
+  const siguiente = searchParams.get('siguiente') ?? searchParams.get('next')
 
   if (code) {
     const supabase = await createClient()

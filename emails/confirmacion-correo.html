@@ -1,0 +1,418 @@
+<!doctype html>
+<html
+  lang="es"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Modo claro y solo. Apple Mail e iOS respetan esto; el resto usa los
+         colores inline. No hay variante oscura a proposito: la app es light
+         y un correo que se invierte rompe la linea grafica. -->
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
+    <title>Confirmá tu correo para entrar a InterU</title>
+
+    <!--[if mso]>
+      <noscript>
+        <xml>
+          <o:OfficeDocumentSettings>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+          </o:OfficeDocumentSettings>
+        </xml>
+      </noscript>
+    <![endif]-->
+
+    <style>
+      /* ------------------------------------------------------------------
+         Reset defensivo. Los clientes heredan estilos del sistema, asi que
+         se pisa TODO de forma explicita. Nada de shorthands.
+         Lo que queda aqui es solo lo que necesita media query o que Apple
+         Mail aplica con mayor especificidad; el resto va inline.
+         ------------------------------------------------------------------ */
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        border: 0;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
+
+      @media only screen and (max-width: 560px) {
+        .c-pad {
+          padding-left: 22px !important;
+          padding-right: 22px !important;
+        }
+        .c-h1 {
+          font-size: 25px !important;
+          line-height: 31px !important;
+        }
+        .c-btn {
+          display: block !important;
+          width: 100% !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+        sans-serif;
+    "
+  >
+    <!-- Preheader: lo primero que se ve en la bandeja. Sin esto el cliente
+         muestra "InterU" y nada mas. Es el detalle de mayor retorno. -->
+    <div
+      style="
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        color: transparent;
+        mso-hide: all;
+      "
+    >
+      Confirmá el correo que registraste y seguí con tu perfil. Tarda un clic.
+      &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+    </div>
+
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      style="background-color: #f8fafc"
+    >
+      <tr>
+        <td align="center" style="padding: 32px 16px 40px">
+          <table
+            role="presentation"
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="width: 100%; max-width: 552px"
+          >
+            <!-- ============ MARCA ============ -->
+            <tr>
+              <td style="padding: 0 4px 22px">
+                <table
+                  role="presentation"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  width="100%"
+                >
+                  <tr>
+                    <td align="left" valign="middle">
+                      <!--
+                        LOGO
+                        ------------------------------------------------------------
+                        Esta URL es el optimizador de Next.js. OJO: sirve AVIF/WebP
+                        segun el Accept del cliente, y varios clientes de correo
+                        no los soportan y muestran la imagen rota.
+
+                        Alternativa mas segura, el archivo original estatico:
+                        https://interu.kibo.company/isotipo.png
+                      -->
+                      <img
+                        src="https://interu.kibo.company/_next/image?url=%2Fisotipo.png&w=48&q=75"
+                        width="48"
+                        height="48"
+                        alt="InterU Honduras"
+                        style="display: block; width: 48px; height: 48px"
+                      />
+                    </td>
+                    <td
+                      align="right"
+                      valign="middle"
+                      style="
+                        font-size: 13px;
+                        letter-spacing: -0.01em;
+                        color: #475569;
+                        font-weight: 500;
+                      "
+                    >
+                      InterU Honduras
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- ============ TARJETA ============ -->
+            <tr>
+              <td
+                class="c-pad"
+                style="
+                  background-color: #ffffff;
+                  border: 1px solid #e2e8f0;
+                  border-radius: 20px;
+                  padding: 36px 36px 34px;
+                "
+              >
+                <!-- Barra de acento: un unico acento, no un arcoiris. -->
+                <table
+                  role="presentation"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  width="100%"
+                  style="margin: 0 0 26px"
+                >
+                  <tr>
+                    <td
+                      height="3"
+                      style="
+                        width: 44px;
+                        background-color: #0d3b82;
+                        border-radius: 2px;
+                        font-size: 0;
+                        line-height: 0;
+                      "
+                    >
+                      &nbsp;
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Un solo eyebrow en todo el correo. -->
+                <p
+                  style="
+                    margin: 0 0 12px;
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.16em;
+                    text-transform: uppercase;
+                    color: #475569;
+                  "
+                >
+                  Paso 1 de 2
+                </p>
+
+                <h1
+                  class="c-h1"
+                  style="
+                    margin: 0 0 16px;
+                    font-size: 29px;
+                    line-height: 36px;
+                    font-weight: 800;
+                    letter-spacing: -0.025em;
+                    color: #0f172a;
+                  "
+                >
+                  Confirmá tu correo
+                </h1>
+
+                <p
+                  style="
+                    margin: 0 0 24px;
+                    font-size: 15px;
+                    line-height: 24px;
+                    color: #475569;
+                  "
+                >
+                  Abrí el correo que registraste y hacé clic en el enlace. Te
+                  devuelve a InterU para que completes tu perfil.
+                </p>
+
+                <p
+                  style="
+                    margin: 0 0 28px;
+                    font-size: 15px;
+                    line-height: 24px;
+                    color: #475569;
+                  "
+                >
+                  Lo pedimos para que nadie más pueda registrarse con tu
+                  dirección. Tu nombre y tu correo nunca se muestran en la
+                  plataforma.
+                </p>
+
+                <!-- ============ BOTON ============ -->
+                <table
+                  role="presentation"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  width="100%"
+                  style="margin: 0 0 22px"
+                >
+                  <tr>
+                    <td align="left">
+                      <!-- Outlook no soporta border-radius ni bgcolor en los
+                           enlaces. VML es la unica forma de que el boton se
+                           vea igual ahi. -->
+                      <!--[if mso]>
+                        <v:roundrect
+                          href="{{ .ConfirmationURL }}"
+                          style="height:50px;v-text-anchor:middle;width:250px;"
+                          arcsize="24%"
+                          stroke="f"
+                          fillcolor="#0d3b82"
+                        >
+                          <w:anchorlock />
+                          <center
+                            style="
+                              color: #ffffff;
+                              font-family: Helvetica, Arial, sans-serif;
+                              font-size: 15px;
+                              font-weight: bold;
+                            "
+                          >
+                            Confirmar mi correo
+                          </center>
+                        </v:roundrect>
+                      <![endif]-->
+
+                      <!--[if !mso]><!-->
+                      <a
+                        class="c-btn"
+                        href="{{ .ConfirmationURL }}"
+                        target="_blank"
+                        style="
+                          display: inline-block;
+                          background-color: #0d3b82;
+                          color: #ffffff;
+                          font-size: 15px;
+                          font-weight: 700;
+                          line-height: 20px;
+                          text-decoration: none;
+                          padding: 15px 30px;
+                          border-radius: 12px;
+                          mso-hide: all;
+                        "
+                      >
+                        Confirmar mi correo
+                      </a>
+                      <!--<![endif]-->
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Fallback: URL crudo. Si el boton no renderiza, el enlace
+                     sigue siendo clicable. Tambien cubre clientes de solo
+                     texto. -->
+                <p
+                  style="
+                    margin: 0 0 26px;
+                    font-size: 13px;
+                    line-height: 21px;
+                    color: #475569;
+                    word-break: break-all;
+                  "
+                >
+                  Si el botón no funciona, pegá esta dirección en tu
+                  navegador:<br />
+                  <a
+                    href="{{ .ConfirmationURL }}"
+                    target="_blank"
+                    style="color: #0d3b82; text-decoration: underline"
+                    >{{ .ConfirmationURL }}</a>
+                </p>
+
+                <!-- Nota: fondo tenue, no caja. -->
+                <table
+                  role="presentation"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                  width="100%"
+                  style="
+                    background-color: #f8fafc;
+                    border-radius: 12px;
+                    margin: 0 0 24px;
+                  "
+                >
+                  <tr>
+                    <td
+                      class="c-pad"
+                      style="
+                        padding: 14px 16px;
+                        font-size: 13px;
+                        line-height: 20px;
+                        color: #475569;
+                      "
+                    >
+                      <strong style="color: #0f172a">¿No pediste esta cuenta?</strong>
+                      Ignorá este correo. No pasa nada y tu dirección no se usa
+                      para nada.
+                    </td>
+                  </tr>
+                </table>
+
+                <p
+                  style="
+                    margin: 0;
+                    font-size: 13px;
+                    line-height: 20px;
+                    color: #475569;
+                  "
+                >
+                  Registraste
+                  <strong style="color: #0f172a">{{ .Email }}</strong>.
+                </p>
+              </td>
+            </tr>
+
+            <!-- ============ PIE ============ -->
+            <tr>
+              <td class="c-pad" style="padding: 22px 8px 0; text-align: center">
+                <p
+                  style="
+                    margin: 0 0 10px;
+                    font-size: 12px;
+                    line-height: 19px;
+                    color: #475569;
+                  "
+                >
+                  <a
+                    href="{{ .SiteURL }}/privacidad"
+                    target="_blank"
+                    style="color: #475569; text-decoration: underline"
+                    >Privacidad</a>
+                  &nbsp;&middot;&nbsp;
+                  <a
+                    href="{{ .SiteURL }}/terminos"
+                    target="_blank"
+                    style="color: #475569; text-decoration: underline"
+                    >Términos</a>
+                </p>
+                <p
+                  style="
+                    margin: 0;
+                    font-size: 12px;
+                    line-height: 19px;
+                    color: #475569;
+                  "
+                >
+                  InterU Honduras
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
