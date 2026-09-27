@@ -178,3 +178,37 @@ p {
   filter: blur(40px);
 }
 
+/* ---- Home: saludo y menu de perfil ----
+   El saludo entra una sola vez por visita y el menu se abre muchas veces al
+   dia, asi que los dos duraciones distintas: 320ms para el texto, 160ms para
+   el popover. El menu usa scale(0.97) y no scale(0): nada en el mundo real
+   aparece de la nada. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.greeting {
+  animation: rise-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes nav-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+}
+
+details[open] .nav-menu {
+  animation: nav-menu-in 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .greeting,
+  details[open] .nav-menu {
+    animation: none;
+  }
+}
+

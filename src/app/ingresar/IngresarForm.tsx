@@ -80,7 +80,7 @@ export default function IngresarForm() {
       <p className="text-center text-xs text-slate-500">
         ¿Todavía no tienes cuenta?{' '}
         <Link
-          href="/"
+          href="/crear-cuenta"
           className="font-bold text-brand-800 transition hover:text-brand-900 hover:underline"
         >
           Crear una
